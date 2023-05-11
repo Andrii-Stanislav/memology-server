@@ -4,22 +4,27 @@ import {
   Column,
   DataType,
   BelongsTo,
+  BelongsToMany,
   ForeignKey,
+  HasMany,
 } from 'sequelize-typescript';
 
 import { User } from '../users/users.model';
+import { Deal } from '../deals/deals.model';
+import { GamesToUser } from './gamesToUser.model';
+import { ApiProperty } from '@nestjs/swagger';
 
 import { generateGameJoinCode } from '../../helpers/generateGameJoinCode';
 import { GAME_STATUS } from '../../types/game';
 
-interface GameCreationAttributes {
+interface CreationAttributes {
   title: string;
-  description?: string;
   creatorId: number;
 }
 
 @Table({ tableName: 'games' })
-export class Game extends Model<Game, GameCreationAttributes> {
+export class Game extends Model<Game, CreationAttributes> {
+  @ApiProperty({ example: 123, description: 'Uniqe ID' })
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -28,18 +33,14 @@ export class Game extends Model<Game, GameCreationAttributes> {
   })
   id: number;
 
+  @ApiProperty({ example: 'Awesome title', description: 'Game title' })
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
   title: string;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  description: string;
-
+  @ApiProperty({ example: 'STARTED', description: 'Game proccess status' })
   @Column({
     type: DataType.STRING,
     defaultValue: GAME_STATUS.NOT_STARTED,
@@ -47,6 +48,10 @@ export class Game extends Model<Game, GameCreationAttributes> {
   })
   status: GAME_STATUS;
 
+  @ApiProperty({
+    example: '123456',
+    description: 'Not very secret code for join to game',
+  })
   @Column({
     type: DataType.STRING,
     defaultValue: generateGameJoinCode(),
@@ -54,10 +59,27 @@ export class Game extends Model<Game, GameCreationAttributes> {
   })
   joinCode: string;
 
+  @ApiProperty({ example: 123, description: 'Current deal Id' })
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  currentDealId: null;
+
+  @ApiProperty({ example: [Deal], description: 'All game deals' })
+  @HasMany(() => Deal)
+  deals: Deal[];
+
+  @ApiProperty({ example: 232, description: 'User ID who create this sh*t' })
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
   creatorId: number;
 
+  @ApiProperty({ example: User, description: 'Author of this sh*t' })
   @BelongsTo(() => User)
   creator: User;
+
+  @ApiProperty({ example: [User], description: 'Those who fell into it sh*t' })
+  @BelongsToMany(() => User, () => GamesToUser)
+  players: User[];
 }

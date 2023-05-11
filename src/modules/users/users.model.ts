@@ -1,7 +1,15 @@
-import { Model, Table, Column, DataType, HasMany } from 'sequelize-typescript';
+import {
+  Model,
+  Table,
+  Column,
+  DataType,
+  HasMany,
+  BelongsToMany,
+} from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { Game } from '../games/games.model';
+import { GamesToUser } from '../games/gamesToUser.model';
 
 interface UserCreationAttributes {
   email: string;
@@ -51,4 +59,7 @@ export class User extends Model<User, UserCreationAttributes> {
 
   @HasMany(() => Game)
   createdGames: Game[];
+
+  @BelongsToMany(() => Game, () => GamesToUser)
+  games: Game[];
 }

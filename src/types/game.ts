@@ -3,3 +3,8 @@ export enum GAME_STATUS {
   STARTED = 'STARTED',
   FINISHED = 'FINISHED',
 }
+
+export enum DEAL_STATUS {
+  STARTED = 'STARTED',
+  FINISHED = 'FINISHED',
+}

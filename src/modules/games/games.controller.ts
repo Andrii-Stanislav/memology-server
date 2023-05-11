@@ -1,21 +1,31 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { GamesService } from './games.service';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 import { UserReq } from '../../guards';
+import { JwtAuthGuard } from '../../guards';
 
-import { CreateGameDto } from './dto';
+import { CreateGameDto, JoinGameDto } from './dto';
 import { Game } from './games.model';
 
+@ApiBearerAuth()
+@ApiTags('Games route')
+@UseGuards(JwtAuthGuard)
 @Controller('games')
 export class GamesController {
   constructor(private readonly gameService: GamesService) {}
 
-  @Get()
   @ApiOperation({ summary: 'Get all games' })
   @ApiResponse({ status: 200, type: [Game] })
+  @Get()
+  // TODO - add filters
   async getAllGames() {
-    this.gameService.getAllGames();
+    return this.gameService.getAllGames();
   }
 
   @ApiOperation({ summary: 'Create game' })
@@ -23,5 +33,12 @@ export class GamesController {
   @Post()
   createGame(@Body() gameDto: CreateGameDto, @UserReq() user) {
     return this.gameService.createGame(gameDto, user.id);
+  }
+
+  @ApiOperation({ summary: 'Create game' })
+  @ApiResponse({ status: 200, type: Game })
+  @Post('/join')
+  joinToGame(@Body() joinGameDto: JoinGameDto, @UserReq() user) {
+    return this.gameService.joinToGame(joinGameDto.joinCode, user.id);
   }
 }
