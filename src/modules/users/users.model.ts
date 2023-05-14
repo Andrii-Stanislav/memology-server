@@ -9,7 +9,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 
 import { Game } from '../games/games.model';
-import { GamesToUser } from '../games/gamesToUser.model';
+import { Player } from '../players/players.model';
 
 interface UserCreationAttributes {
   email: string;
@@ -60,6 +60,6 @@ export class User extends Model<User, UserCreationAttributes> {
   @HasMany(() => Game)
   createdGames: Game[];
 
-  @BelongsToMany(() => Game, () => GamesToUser)
+  @BelongsToMany(() => Game, () => Player)
   games: Game[];
 }

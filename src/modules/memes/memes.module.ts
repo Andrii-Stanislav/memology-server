@@ -16,5 +16,6 @@ import { Meme } from './memes.model';
     FilesModule,
     forwardRef(() => AuthModule),
   ],
+  exports: [MemesService],
 })
 export class MemesModule {}

@@ -10,6 +10,7 @@ import { MemesModule } from './modules/memes/memes.module';
 import { FilesModule } from './modules/files/files.module';
 import { GamesModule } from './modules/games/games.module';
 import { DealsModule } from './modules/deals/deals.module';
+import { PlayersModule } from './modules/players/players.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { DealsModule } from './modules/deals/deals.module';
     MemesModule,
     FilesModule,
     GamesModule,
+    PlayersModule,
     DealsModule,
   ],
 })

@@ -7,16 +7,17 @@ import {
 } from 'sequelize-typescript';
 
 import { User } from '../users/users.model';
-
-import { Game } from './games.model';
+import { Game } from '../games/games.model';
 
 interface CreationAttributes {
+  name: string;
+  cards: string;
   userId: number;
   gameId: number;
 }
 
-@Table({ tableName: 'gamesToUser' })
-export class GamesToUser extends Model<GamesToUser, CreationAttributes> {
+@Table({ tableName: 'players' })
+export class Player extends Model<Player, CreationAttributes> {
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -24,6 +25,12 @@ export class GamesToUser extends Model<GamesToUser, CreationAttributes> {
     primaryKey: true,
   })
   id: number;
+
+  @Column({ type: DataType.STRING })
+  name: number;
+
+  @Column({ type: DataType.STRING(9999) })
+  cards: string;
 
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })

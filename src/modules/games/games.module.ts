@@ -4,7 +4,9 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { AuthModule } from '../auth/auth.module';
 import { User } from '../users/users.model';
 import { Deal } from '../deals/deals.model';
-import { GamesToUser } from './gamesToUser.model';
+import { Player } from '../players/players.model';
+import { MemesModule } from '../memes/memes.module';
+import { PlayersModule } from '../players/players.module';
 
 import { CommonGateway } from './gateways/common.gateway';
 import { CamesGateway } from './gateways/games.gateway';
@@ -16,8 +18,10 @@ import { Game } from './games.model';
   controllers: [GamesController],
   providers: [GamesService, CommonGateway, CamesGateway],
   imports: [
-    SequelizeModule.forFeature([Game, GamesToUser, User, Deal]),
+    SequelizeModule.forFeature([Game, Player, User, Deal]),
     forwardRef(() => AuthModule),
+    MemesModule,
+    PlayersModule,
   ],
 })
 export class GamesModule {}
