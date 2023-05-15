@@ -27,7 +27,7 @@ export class Player extends Model<Player, CreationAttributes> {
   id: number;
 
   @Column({ type: DataType.STRING })
-  name: number;
+  name: string;
 
   @Column({ type: DataType.STRING(9999) })
   cards: string;

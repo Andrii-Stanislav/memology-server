@@ -1,4 +1,4 @@
-const makeRandomFigure = () => Math.floor(Math.random() * 10) + 1;
+const makeRandomFigure = () => Math.floor(Math.random() * 10);
 
 const GAME_JOIN_CODE_LENGTH = 6;
 

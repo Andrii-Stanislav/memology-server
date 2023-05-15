@@ -4,30 +4,36 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { JwtService } from '@nestjs/jwt';
-import { UsePipes } from '@nestjs/common';
-
-import { SocketAuthPipe } from '../../../guards/socket-auth.pipe';
 
 import { GamesService } from '../games.service';
-import { WS_KEYS } from '../constants';
+import { GAME_WS_KEYS } from '../constants';
 
-@WebSocketGateway({ cors: true })
+interface BaseMessage {
+  gameId: number;
+}
+
+@WebSocketGateway({ namespace: 'game', cors: true })
 export class CamesGateway {
   @WebSocketServer() server: Server;
 
   connectedUsers: string[] = [];
 
-  constructor(
-    private jwtService: JwtService,
-    private readonly gameService: GamesService,
-  ) {}
+  constructor(private readonly gameService: GamesService) {}
 
-  @UsePipes(SocketAuthPipe)
-  @SubscribeMessage(WS_KEYS.JOIN_GAME)
-  async onSendMessage(client: Socket, message: string) {
-    console.log('sendMessage: ', client, message);
-    // client.broadcast.emit('sendMessage', message);
+  @SubscribeMessage(GAME_WS_KEYS.JOIN_GAME)
+  async onSendMessage(client: Socket, message: BaseMessage) {
+    client.broadcast.emit(
+      `${GAME_WS_KEYS.JOIN_GAME}/${message.gameId}`,
+      message,
+    );
   }
-  //
+
+  // ! TEST WS
+  @SubscribeMessage(GAME_WS_KEYS.TEST_MESSAGE)
+  async test(client: Socket, message: BaseMessage) {
+    client.broadcast.emit(
+      `${GAME_WS_KEYS.TEST_MESSAGE}/${message.gameId}`,
+      message,
+    );
+  }
 }
