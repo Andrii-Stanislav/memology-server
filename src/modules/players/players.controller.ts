@@ -1,4 +1,11 @@
-import { Controller, Get, Delete, Param, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Delete,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
@@ -12,7 +19,10 @@ export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
 
   @Get()
-  async getAll() {
+  async getAll(@Query('gameId') gameId?: number) {
+    if (gameId) {
+      return this.playersService.getGamePlayers(gameId);
+    }
     return this.playersService.getAllPlayers();
   }
 

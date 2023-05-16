@@ -16,14 +16,20 @@ export class GamesService {
     @InjectModel(Game) private gameRepository: typeof Game,
   ) {}
 
-  async getAllGames() {
+  async getAllGames(creatorId: number) {
+    return await this.gameRepository.findAll({
+      where: { creatorId },
+      include: { all: true },
+    });
+  }
+
+  async getCreatedByUserGames() {
     return await this.gameRepository.findAll({ include: { all: true } });
   }
 
   async getGameById(gameId: number) {
     const game = await this.gameRepository.findOne({
       where: { id: gameId },
-      include: { all: true },
     });
 
     return game;

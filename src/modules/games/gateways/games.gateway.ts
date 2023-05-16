@@ -10,6 +10,7 @@ import { GAME_WS_KEYS } from '../constants';
 
 interface BaseMessage {
   gameId: number;
+  [key: string]: any;
 }
 
 @WebSocketGateway({ namespace: 'game', cors: true })
@@ -21,9 +22,19 @@ export class CamesGateway {
   constructor(private readonly gameService: GamesService) {}
 
   @SubscribeMessage(GAME_WS_KEYS.JOIN_GAME)
-  async onSendMessage(client: Socket, message: BaseMessage) {
+  async onJoinGame(client: Socket, message: BaseMessage) {
+    // TODO - set as joined to game
     client.broadcast.emit(
       `${GAME_WS_KEYS.JOIN_GAME}/${message.gameId}`,
+      message,
+    );
+  }
+
+  @SubscribeMessage(GAME_WS_KEYS.LEAVE_GAME)
+  async onLeaveGame(client: Socket, message: BaseMessage) {
+    // TODO - set as unjoined to game
+    client.broadcast.emit(
+      `${GAME_WS_KEYS.LEAVE_GAME}/${message.gameId}`,
       message,
     );
   }

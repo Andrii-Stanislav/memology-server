@@ -24,8 +24,8 @@ export class GamesController {
 
   @ApiOperation({ summary: 'Get all games' })
   @Get()
-  async getAllGames() {
-    return this.gameService.getAllGames();
+  async getAllGames(@UserReq() user) {
+    return this.gameService.getAllGames(user.id);
   }
 
   @ApiOperation({ summary: 'Get one game' })

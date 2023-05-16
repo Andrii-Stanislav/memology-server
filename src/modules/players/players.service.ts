@@ -12,6 +12,13 @@ export class PlayersService {
     return await this.playersRepository.findAll({ include: { all: true } });
   }
 
+  async getGamePlayers(gameId: number) {
+    return await this.playersRepository.findAll({
+      where: { gameId },
+      include: { all: true },
+    });
+  }
+
   async getPlayerById(id: number) {
     return await this.playersRepository.findOne({
       where: { id },
