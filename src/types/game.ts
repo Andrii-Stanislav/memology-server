@@ -8,3 +8,8 @@ export enum DEAL_STATUS {
   STARTED = 'STARTED',
   FINISHED = 'FINISHED',
 }
+
+export enum PLAYER_STATUS {
+  WAITING = 'WAITING',
+  READY = 'READY',
+}

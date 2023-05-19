@@ -1,7 +1,9 @@
 import {
   Controller,
   Get,
+  Patch,
   Delete,
+  Body,
   Param,
   Query,
   UseGuards,
@@ -9,6 +11,7 @@ import {
 import { PlayersService } from './players.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+import { UpdatePlayerDto } from './dto';
 import { JwtAuthGuard } from '../../guards';
 
 @ApiBearerAuth()
@@ -29,6 +32,11 @@ export class PlayersController {
   @Get('/:id')
   async getById(@Param('id') id: number) {
     return this.playersService.getPlayerById(id);
+  }
+
+  @Patch('/:id')
+  async updatePlayer(@Param('id') id: number, @Body() dto: UpdatePlayerDto) {
+    return this.playersService.updatePlayer(id, dto);
   }
 
   @Delete('/:id')

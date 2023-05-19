@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 
 import { Player } from './players.model';
-import { CreatePlayerDto } from './dto';
+import { CreatePlayerDto, UpdatePlayerDto } from './dto';
 
 @Injectable()
 export class PlayersService {
@@ -30,7 +30,15 @@ export class PlayersService {
     return await this.playersRepository.create(dto);
   }
 
+  async updatePlayer(playerId: number, dto: UpdatePlayerDto) {
+    await this.playersRepository.update(dto, { where: { id: playerId } });
+  }
+
   async removePlayer(id: number) {
     return await this.playersRepository.destroy({ where: { id } });
+  }
+
+  async leavePlayerFromGame(userId: number, gameId: number) {
+    return await this.playersRepository.destroy({ where: { userId, gameId } });
   }
 }
