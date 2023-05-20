@@ -7,7 +7,7 @@ import { PlayersService } from '../players/players.service';
 
 import { Game } from './games.model';
 import { User } from '../users/users.model';
-import { CreateGameDto, JoinGameDto } from './dto';
+import { CreateGameDto, UpdateGameDto, JoinGameDto } from './dto';
 
 @Injectable()
 export class GamesService {
@@ -55,6 +55,10 @@ export class GamesService {
       cardsOnHands,
       creatorId,
     });
+  }
+
+  async updateGame(gameId: number, dto: UpdateGameDto) {
+    return await this.gameRepository.update(dto, { where: { id: gameId } });
   }
 
   async joinToGame(joinDto: JoinGameDto, userId: number) {

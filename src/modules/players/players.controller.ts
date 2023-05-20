@@ -11,8 +11,9 @@ import {
 import { PlayersService } from './players.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-import { UpdatePlayerDto } from './dto';
 import { JwtAuthGuard } from '../../guards';
+
+import { UpdatePlayerDto } from './dto';
 
 @ApiBearerAuth()
 @ApiTags('Players route')

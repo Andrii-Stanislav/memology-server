@@ -83,7 +83,7 @@ export class Game extends Model<Game, CreationAttributes> {
   @ApiProperty({ example: 4, description: 'Players count' })
   @Column({
     type: DataType.INTEGER,
-    defaultValue: 4,
+    defaultValue: 3,
   })
   playersCount: number;
 

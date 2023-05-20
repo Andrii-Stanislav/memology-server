@@ -37,8 +37,4 @@ export class PlayersService {
   async removePlayer(id: number) {
     return await this.playersRepository.destroy({ where: { id } });
   }
-
-  async leavePlayerFromGame(userId: number, gameId: number) {
-    return await this.playersRepository.destroy({ where: { userId, gameId } });
-  }
 }
