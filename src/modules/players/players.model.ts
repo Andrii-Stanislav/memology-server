@@ -13,7 +13,7 @@ import { PLAYER_STATUS } from '../../types/game';
 
 interface CreationAttributes {
   name: string;
-  cards: string;
+  cards: number[];
   userId: number;
   gameId: number;
 }
@@ -37,8 +37,10 @@ export class Player extends Model<Player, CreationAttributes> {
   })
   status: string;
 
-  @Column({ type: DataType.STRING(9999) })
-  cards: string;
+  @Column({
+    type: DataType.ARRAY(DataType.INTEGER),
+  })
+  cards: number[];
 
   // @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })

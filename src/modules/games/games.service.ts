@@ -75,13 +75,13 @@ export class GamesService {
 
     const player = await this.playersService.createPlayer({
       name: joinDto.playerName,
-      cards: playerCards.join(','),
+      cards: playerCards,
       userId,
       gameId: game.id,
     });
 
     await this.gameRepository.update(
-      { cards: newGameCards.join(',') },
+      { cards: newGameCards },
       { where: { id: joinDto.gameId } },
     );
 
@@ -93,15 +93,12 @@ export class GamesService {
   private async getGameInitCards(count: number) {
     const allMemes = await this.memeService.getAllMemes();
 
-    return shuffle(allMemes.map(({ id }) => id))
-      .slice(count)
-      .join(',');
+    return shuffle(allMemes.map(({ id }) => id)).slice(count);
   }
 
   private dealCardsToPlayer(game: Game) {
-    const gameCards = game.cards.split(',').map((id) => Number(id.trim()));
-    const playerCards = gameCards.slice(0, game.cardsOnHands);
-    const newGameCards = gameCards.filter((id) => !playerCards.includes(id));
+    const playerCards = game.cards.slice(0, game.cardsOnHands);
+    const newGameCards = game.cards.filter((id) => !playerCards.includes(id));
 
     return { playerCards, newGameCards };
   }

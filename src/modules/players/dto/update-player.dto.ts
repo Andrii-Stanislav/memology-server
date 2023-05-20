@@ -1,4 +1,4 @@
-import { IsString, IsEnum, IsOptional } from 'class-validator';
+import { IsArray, IsString, IsEnum, IsOptional } from 'class-validator';
 
 import { PLAYER_STATUS } from '../../../types/game';
 
@@ -7,9 +7,9 @@ export class UpdatePlayerDto {
   @IsOptional()
   readonly name?: string;
 
-  @IsString()
+  @IsArray()
   @IsOptional()
-  readonly cards?: string;
+  readonly cards?: number[];
 
   @IsString()
   @IsEnum(PLAYER_STATUS)

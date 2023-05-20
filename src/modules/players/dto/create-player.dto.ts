@@ -1,11 +1,11 @@
-import { IsString, IsNumber } from 'class-validator';
+import { IsArray, IsString, IsNumber } from 'class-validator';
 
 export class CreatePlayerDto {
   @IsString({ message: 'Player name have to be string' })
   readonly name: string;
 
-  @IsString()
-  readonly cards: string;
+  @IsArray()
+  readonly cards: number[];
 
   @IsNumber()
   readonly userId: number;

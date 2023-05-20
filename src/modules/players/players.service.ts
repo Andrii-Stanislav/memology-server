@@ -9,14 +9,11 @@ export class PlayersService {
   constructor(@InjectModel(Player) private playersRepository: typeof Player) {}
 
   async getAllPlayers() {
-    return await this.playersRepository.findAll({ include: { all: true } });
+    return await this.playersRepository.findAll();
   }
 
   async getGamePlayers(gameId: number) {
-    return await this.playersRepository.findAll({
-      where: { gameId },
-      include: { all: true },
-    });
+    return await this.playersRepository.findAll({ where: { gameId } });
   }
 
   async getPlayerById(id: number) {

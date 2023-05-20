@@ -4,7 +4,6 @@ import {
   Column,
   DataType,
   BelongsTo,
-  BelongsToMany,
   ForeignKey,
   HasMany,
 } from 'sequelize-typescript';
@@ -22,7 +21,7 @@ interface CreationAttributes {
   creatorId: number;
   playersCount?: number;
   cardsOnHands?: number;
-  cards: string;
+  cards: number[];
 }
 
 @Table({ tableName: 'games' })
@@ -97,7 +96,8 @@ export class Game extends Model<Game, CreationAttributes> {
   @HasMany(() => Player)
   players: Player[];
 
-  @ApiProperty({ example: '1, 2, 3, 4', description: 'String with memes IDs' })
-  @Column({ type: DataType.STRING(9999) })
-  cards: string;
+  @Column({
+    type: DataType.ARRAY(DataType.INTEGER),
+  })
+  cards: number[];
 }
