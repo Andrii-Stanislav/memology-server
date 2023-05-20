@@ -1,11 +1,4 @@
-import {
-  Model,
-  Table,
-  Column,
-  DataType,
-  HasMany,
-  BelongsToMany,
-} from 'sequelize-typescript';
+import { Model, Table, Column, DataType, HasMany } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { Game } from '../games/games.model';
@@ -59,7 +52,4 @@ export class User extends Model<User, UserCreationAttributes> {
 
   @HasMany(() => Game)
   createdGames: Game[];
-
-  @BelongsToMany(() => Game, () => Player)
-  games: Game[];
 }

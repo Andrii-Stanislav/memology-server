@@ -94,8 +94,8 @@ export class Game extends Model<Game, CreationAttributes> {
   })
   cardsOnHands: number;
 
-  @BelongsToMany(() => User, () => Player)
-  players: User[];
+  @HasMany(() => Player)
+  players: Player[];
 
   @ApiProperty({ example: '1, 2, 3, 4', description: 'String with memes IDs' })
   @Column({ type: DataType.STRING(9999) })

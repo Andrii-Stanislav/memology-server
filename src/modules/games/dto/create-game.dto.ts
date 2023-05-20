@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNumber } from 'class-validator';
+import { IsOptional, IsString, IsNumber } from 'class-validator';
 
 export class CreateGameDto {
   @ApiProperty({ example: 'Super puper title', description: 'Game title' })
@@ -8,6 +8,7 @@ export class CreateGameDto {
 
   @ApiProperty({ example: 4, description: 'Game players count' })
   @IsNumber()
+  @IsOptional()
   readonly playersCount?: number;
 
   @ApiProperty({ example: 20, description: 'Total cards per user' })
@@ -16,5 +17,6 @@ export class CreateGameDto {
 
   @ApiProperty({ example: 5, description: 'Cards on hands' })
   @IsNumber()
+  @IsOptional()
   readonly cardsOnHands?: number;
 }

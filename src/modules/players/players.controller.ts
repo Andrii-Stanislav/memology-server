@@ -23,11 +23,13 @@ export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
 
   @Get()
-  async getAll(@Query('gameId') gameId?: number) {
-    if (gameId) {
-      return this.playersService.getGamePlayers(gameId);
-    }
+  async getAll() {
     return this.playersService.getAllPlayers();
+  }
+
+  @Get('?')
+  async getAllByGameId(@Query('gameId') gameId?: number) {
+    return this.playersService.getGamePlayers(gameId);
   }
 
   @Get('/:id')

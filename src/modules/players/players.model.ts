@@ -4,9 +4,9 @@ import {
   Column,
   DataType,
   ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
 
-import { User } from '../users/users.model';
 import { Game } from '../games/games.model';
 
 import { PLAYER_STATUS } from '../../types/game';
@@ -40,11 +40,14 @@ export class Player extends Model<Player, CreationAttributes> {
   @Column({ type: DataType.STRING(9999) })
   cards: string;
 
-  @ForeignKey(() => User)
+  // @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
   userId: number;
 
   @ForeignKey(() => Game)
   @Column({ type: DataType.INTEGER })
   gameId: number;
+
+  @BelongsTo(() => Game)
+  game: Game;
 }
