@@ -13,7 +13,7 @@ export class CreateGameDto {
 
   @ApiProperty({ example: 20, description: 'Total cards per user' })
   @IsNumber()
-  readonly totalCardsPerUser?: number;
+  readonly totalCardsPerUser?: number = 20;
 
   @ApiProperty({ example: 5, description: 'Cards on hands' })
   @IsNumber()

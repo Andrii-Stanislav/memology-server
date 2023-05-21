@@ -10,8 +10,7 @@ import {
 import { GamesService } from './games.service';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { UserReq } from '../../guards';
-import { JwtAuthGuard } from '../../guards';
+import { UserReq, JwtAuthGuard } from '../../guards';
 
 import { CreateGameDto, JoinGameDto } from './dto';
 

@@ -7,10 +7,10 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 
-import { Bet } from '../bets/bets.model';
-
 import { DEAL_STATUS } from '../../types/game';
+
 import { Game } from '../games/games.model';
+import { Bet } from '../bets/bets.model';
 
 interface DealCreationAttributes {
   gameId: number;

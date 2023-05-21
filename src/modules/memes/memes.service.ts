@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 
 import { MEMES_IMAGES } from '../../constants/memes';
+
 import { FilesService } from '../files/files.service';
+
 import { Meme } from './memes.model';
 import { CreateMemeDto, CreateMemeExternalDto } from './dto';
 

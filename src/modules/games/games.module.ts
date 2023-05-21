@@ -1,10 +1,10 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 
-import { AuthModule } from '../auth/auth.module';
 import { User } from '../users/users.model';
 import { Deal } from '../deals/deals.model';
 import { Player } from '../players/players.model';
+import { AuthModule } from '../auth/auth.module';
 import { MemesModule } from '../memes/memes.module';
 import { PlayersModule } from '../players/players.module';
 import { DealsModule } from '../deals/deals.module';

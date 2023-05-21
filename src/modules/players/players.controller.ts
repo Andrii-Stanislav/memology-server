@@ -8,11 +8,11 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { PlayersService } from './players.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { JwtAuthGuard } from '../../guards';
 
+import { PlayersService } from './players.service';
 import { UpdatePlayerDto } from './dto';
 
 @ApiBearerAuth()

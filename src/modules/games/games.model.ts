@@ -7,14 +7,14 @@ import {
   ForeignKey,
   HasMany,
 } from 'sequelize-typescript';
-
-import { User } from '../users/users.model';
-import { Player } from '../players/players.model';
-import { Deal } from '../deals/deals.model';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { generateGameJoinCode } from '../../helpers/generateGameJoinCode';
 import { GAME_STATUS } from '../../types/game';
+
+import { User } from '../users/users.model';
+import { Player } from '../players/players.model';
+import { Deal } from '../deals/deals.model';
 
 interface CreationAttributes {
   title: string;

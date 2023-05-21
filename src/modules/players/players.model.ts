@@ -7,9 +7,9 @@ import {
   BelongsTo,
 } from 'sequelize-typescript';
 
-import { Game } from '../games/games.model';
-
 import { PLAYER_STATUS } from '../../types/game';
+
+import { Game } from '../games/games.model';
 
 interface CreationAttributes {
   name: string;

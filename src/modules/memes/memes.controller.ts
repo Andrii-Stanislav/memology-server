@@ -16,12 +16,13 @@ import {
   ApiConsumes,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard, SuperAdminGuard } from '../../guards';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-import { CreateMemeDto, CreateMemeExternalDto } from './dto';
-import { Meme } from './memes.model';
+import { JwtAuthGuard, SuperAdminGuard } from '../../guards';
+
 import { MemesService } from './memes.service';
+import { Meme } from './memes.model';
+import { CreateMemeDto, CreateMemeExternalDto } from './dto';
 
 @ApiSecurity('super-admin')
 @ApiBearerAuth()
