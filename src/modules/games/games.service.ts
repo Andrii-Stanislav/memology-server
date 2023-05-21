@@ -6,7 +6,6 @@ import { MemesService } from '../memes/memes.service';
 import { PlayersService } from '../players/players.service';
 
 import { Game } from './games.model';
-import { User } from '../users/users.model';
 import { CreateGameDto, UpdateGameDto, JoinGameDto } from './dto';
 
 @Injectable()
@@ -20,12 +19,6 @@ export class GamesService {
   async getAllGames(creatorId: number) {
     return await this.gameRepository.findAll({
       where: { creatorId },
-      include: [{ model: User, as: 'creator' }],
-    });
-  }
-
-  async getCreatedByUserGames() {
-    return await this.gameRepository.findAll({
       include: { all: true },
     });
   }
@@ -33,7 +26,7 @@ export class GamesService {
   async getGameById(gameId: number) {
     const game = await this.gameRepository.findOne({
       where: { id: gameId },
-      include: [{ model: User, as: 'creator' }],
+      include: { all: true },
     });
 
     return game;

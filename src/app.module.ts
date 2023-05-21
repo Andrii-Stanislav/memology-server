@@ -9,8 +9,9 @@ import { AuthModule } from './modules/auth/auth.module';
 import { MemesModule } from './modules/memes/memes.module';
 import { FilesModule } from './modules/files/files.module';
 import { GamesModule } from './modules/games/games.module';
-import { DealsModule } from './modules/deals/deals.module';
 import { PlayersModule } from './modules/players/players.module';
+import { DealsModule } from './modules/deals/deals.module';
+import { BetsModule } from './modules/bets/bets.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { PlayersModule } from './modules/players/players.module';
     GamesModule,
     PlayersModule,
     DealsModule,
+    BetsModule,
   ],
 })
 export class AppModule {}

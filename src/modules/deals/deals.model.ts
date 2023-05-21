@@ -3,15 +3,18 @@ import {
   Table,
   Column,
   DataType,
-  BelongsTo,
   ForeignKey,
+  HasMany,
 } from 'sequelize-typescript';
+
+import { Bet } from '../bets/bets.model';
 
 import { DEAL_STATUS } from '../../types/game';
 import { Game } from '../games/games.model';
 
 interface DealCreationAttributes {
   gameId: number;
+  judgeId: number;
 }
 
 @Table({ tableName: 'deals' })
@@ -34,16 +37,12 @@ export class Deal extends Model<Deal, DealCreationAttributes> {
   @Column({ type: DataType.INTEGER })
   gameId: number;
 
-  @BelongsTo(() => Game)
-  game: Game;
+  @Column({ type: DataType.INTEGER, allowNull: true })
+  vinnerId: number | null;
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: true,
-  })
-  vinnerId: null;
+  @Column({ type: DataType.INTEGER })
+  judgeId: number;
 
-  // TODO
-  // @HasMany(() => Bet)
-  // bets: Bet[];
+  @HasMany(() => Bet)
+  bets: Bet[];
 }

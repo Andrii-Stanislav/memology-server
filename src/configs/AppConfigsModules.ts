@@ -7,15 +7,16 @@ import { join } from 'path';
 import { User } from '../modules/users/users.model';
 import { Meme } from '../modules/memes/memes.model';
 import { Game } from '../modules/games/games.model';
-import { Deal } from '../modules/deals/deals.model';
 import { Player } from '../modules/players/players.model';
+import { Deal } from '../modules/deals/deals.model';
+import { Bet } from '../modules/bets/bets.model';
 
 export const AppConfigsModules = [
   ConfigModule.forRoot(),
   SequelizeModule.forRoot({
     dialect: 'postgres',
     uri: process.env.PG_DB_URI,
-    models: [User, Player, Game, Meme, Deal],
+    models: [User, Meme, Game, Player, Deal, Bet],
     autoLoadModels: true,
   }),
   ServeStaticModule.forRoot({

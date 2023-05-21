@@ -7,6 +7,8 @@ import { Deal } from '../deals/deals.model';
 import { Player } from '../players/players.model';
 import { MemesModule } from '../memes/memes.module';
 import { PlayersModule } from '../players/players.module';
+import { DealsModule } from '../deals/deals.module';
+import { BetsModule } from '../bets/bets.module';
 
 import { CommonGateway } from './gateways/common.gateway';
 import { CamesGateway } from './gateways/games.gateway';
@@ -22,6 +24,8 @@ import { Game } from './games.model';
     forwardRef(() => AuthModule),
     MemesModule,
     PlayersModule,
+    DealsModule,
+    BetsModule,
   ],
 })
 export class GamesModule {}
