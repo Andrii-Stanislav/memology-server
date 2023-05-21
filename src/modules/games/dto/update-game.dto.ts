@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsEnum, IsNumber } from 'class-validator';
+import {
+  IsArray,
+  IsString,
+  IsOptional,
+  IsEnum,
+  IsNumber,
+} from 'class-validator';
 
 import { GAME_STATUS } from '../../../types/game';
 
@@ -28,4 +34,14 @@ export class UpdateGameDto {
   @IsEnum(GAME_STATUS)
   @IsOptional()
   readonly status?: GAME_STATUS;
+
+  @ApiProperty({ example: [5, 6, 97], description: 'Card ID array' })
+  @IsArray()
+  @IsOptional()
+  readonly cards?: number[];
+
+  @ApiProperty({ example: [5, 6, 97], description: 'Situations ID array' })
+  @IsArray()
+  @IsOptional()
+  readonly situations?: number[];
 }

@@ -53,18 +53,26 @@ export class CamesGateway {
     const { gameId } = message;
     client.broadcast.emit(`${GAME_WS_KEYS.READY_FOR_GAME}/${gameId}`, message);
 
-    const [game, players] = await Promise.all([
-      this.gameService.getGameById(gameId),
-      this.playersService.getGamePlayers(gameId),
-    ]);
+    const game = await this.gameService.getGameById(gameId);
+
+    // TODO - move create new Deal logic to games.service
+    const situationId = game.situations[0];
+    const newGameSituations = game.situations.slice(1);
 
     if (
-      players.length === game.playersCount &&
-      players.every((player) => player.status === PLAYER_STATUS.READY)
+      game.players.length === game.playersCount &&
+      game.players.every((player) => player.status === PLAYER_STATUS.READY)
     ) {
       await Promise.all([
-        this.dealsService.createDeal({ gameId, judgeId: game.creatorId }),
-        this.gameService.updateGame(gameId, { status: GAME_STATUS.STARTED }),
+        this.dealsService.createDeal({
+          gameId,
+          judgeId: game.creatorId,
+          situationId,
+        }),
+        this.gameService.updateGame(gameId, {
+          status: GAME_STATUS.STARTED,
+          situations: newGameSituations,
+        }),
       ]);
 
       client.broadcast.emit(`${GAME_WS_KEYS.GAME_STARTED}/${message.gameId}`);

@@ -7,6 +7,7 @@ import { AppConfigsModules } from './configs';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MemesModule } from './modules/memes/memes.module';
+import { SituationsModule } from './modules/situations/situations.module';
 import { FilesModule } from './modules/files/files.module';
 import { GamesModule } from './modules/games/games.module';
 import { PlayersModule } from './modules/players/players.module';
@@ -19,6 +20,7 @@ import { BetsModule } from './modules/bets/bets.module';
     UsersModule,
     AuthModule,
     MemesModule,
+    SituationsModule,
     FilesModule,
     GamesModule,
     PlayersModule,

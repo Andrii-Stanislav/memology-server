@@ -6,4 +6,7 @@ export class CreateDealDto {
 
   @IsNumber()
   readonly judgeId: number;
+
+  @IsNumber()
+  readonly situationId: number;
 }

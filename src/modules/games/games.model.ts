@@ -22,6 +22,7 @@ interface CreationAttributes {
   playersCount?: number;
   cardsOnHands?: number;
   cards: number[];
+  situations: number[];
 }
 
 @Table({ tableName: 'games' })
@@ -98,6 +99,13 @@ export class Game extends Model<Game, CreationAttributes> {
 
   @Column({
     type: DataType.ARRAY(DataType.INTEGER),
+    allowNull: false,
   })
   cards: number[];
+
+  @Column({
+    type: DataType.ARRAY(DataType.INTEGER),
+    allowNull: false,
+  })
+  situations: number[];
 }

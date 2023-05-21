@@ -15,6 +15,7 @@ import { Bet } from '../bets/bets.model';
 interface DealCreationAttributes {
   gameId: number;
   judgeId: number;
+  situationId: number;
 }
 
 @Table({ tableName: 'deals' })
@@ -32,6 +33,9 @@ export class Deal extends Model<Deal, DealCreationAttributes> {
     defaultValue: DEAL_STATUS.STARTED,
   })
   status: DEAL_STATUS;
+
+  @Column({ type: DataType.INTEGER })
+  situationId: number;
 
   @ForeignKey(() => Game)
   @Column({ type: DataType.INTEGER })

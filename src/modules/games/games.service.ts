@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { shuffle } from 'lodash';
 
 import { MemesService } from '../memes/memes.service';
+import { SituationsService } from '../situations/situations.service';
 import { PlayersService } from '../players/players.service';
 
 import { Game } from './games.model';
@@ -12,6 +13,7 @@ import { CreateGameDto, UpdateGameDto, JoinGameDto } from './dto';
 export class GamesService {
   constructor(
     private readonly memeService: MemesService,
+    private readonly situationsService: SituationsService,
     private readonly playersService: PlayersService,
     @InjectModel(Game) private gameRepository: typeof Game,
   ) {}
@@ -39,12 +41,16 @@ export class GamesService {
   async createGame(dto: CreateGameDto, creatorId: number) {
     const { title, playersCount, cardsOnHands, totalCardsPerUser } = dto;
 
-    const cards = await this.getGameInitCards(playersCount * totalCardsPerUser);
+    const [cards, situations] = await Promise.all([
+      this.getGameInitCards(playersCount * totalCardsPerUser),
+      this.getGameInitSituations(totalCardsPerUser),
+    ]);
 
     return await this.gameRepository.create({
       title,
       playersCount,
       cards,
+      situations,
       cardsOnHands,
       creatorId,
     });
@@ -83,10 +89,21 @@ export class GamesService {
 
   // private methods
 
+  private async getGameInitSituations(count: number) {
+    const [allSituations, madeUpSituations] = await Promise.all([
+      this.situationsService.getAllSituations(),
+      this.situationsService.getMadeUpSituations(count),
+    ]);
+
+    return shuffle(
+      [...allSituations, ...madeUpSituations].map(({ id }) => id),
+    ).slice(0, count);
+  }
+
   private async getGameInitCards(count: number) {
     const allMemes = await this.memeService.getAllMemes();
 
-    return shuffle(allMemes.map(({ id }) => id)).slice(count);
+    return shuffle(allMemes.map(({ id }) => id)).slice(0, count);
   }
 
   private dealCardsToPlayer(game: Game) {

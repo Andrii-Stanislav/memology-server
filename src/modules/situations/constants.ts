@@ -1,4 +1,4 @@
-export const BY_YOURSELF = ['Придумай сам(а)'];
+export const BY_YOURSELF_SITUATION = ['Придумай сам(а)'];
 
 export const SITUATIONS = [
   [
