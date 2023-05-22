@@ -64,10 +64,10 @@ export class Game extends Model<Game, CreationAttributes> {
 
   @ApiProperty({ example: 123, description: 'Current deal Id' })
   @Column({
-    type: DataType.STRING,
-    allowNull: true,
+    type: DataType.INTEGER,
+    defaultValue: null,
   })
-  currentDealId: null;
+  currentDealId: number | null;
 
   @HasMany(() => Deal)
   deals: Deal[];

@@ -9,8 +9,9 @@ import {
 import { Deal } from '../deals/deals.model';
 
 interface CreationAttributes {
+  userId: number;
   dealId: number;
-  playerId: number;
+  cardId: number;
 }
 
 @Table({ tableName: 'bets' })
@@ -24,7 +25,10 @@ export class Bet extends Model<Bet, CreationAttributes> {
   id: number;
 
   @Column({ type: DataType.INTEGER })
-  playerId: number;
+  userId: number;
+
+  @Column({ type: DataType.INTEGER })
+  cardId: number;
 
   @ForeignKey(() => Deal)
   @Column({ type: DataType.INTEGER })

@@ -8,7 +8,7 @@ import { CreateBetDto } from './dto';
 export class BetsService {
   constructor(@InjectModel(Bet) private betsRepository: typeof Bet) {}
 
-  async createBet(dto: CreateBetDto) {
-    return await this.betsRepository.create(dto);
+  async createBet(dto: CreateBetDto, userId: number) {
+    return await this.betsRepository.create({ ...dto, userId });
   }
 }

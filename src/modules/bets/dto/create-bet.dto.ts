@@ -5,5 +5,5 @@ export class CreateBetDto {
   readonly dealId: number;
 
   @IsNumber()
-  readonly playerId: number;
+  readonly cardId: number;
 }

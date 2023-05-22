@@ -1,34 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsArray,
-  IsString,
-  IsOptional,
-  IsEnum,
-  IsNumber,
-} from 'class-validator';
+import { IsArray, IsOptional, IsEnum, IsNumber } from 'class-validator';
 
 import { GAME_STATUS } from '../../../types/game';
 
 export class UpdateGameDto {
-  @ApiProperty({ example: 'Super puper title', description: 'Game title' })
-  @IsString({ message: 'Meme title have to be string' })
-  @IsOptional()
-  readonly title?: string;
-
-  @ApiProperty({ example: 4, description: 'Game players count' })
+  @ApiProperty({ example: 123, description: 'Current deal ID' })
   @IsNumber()
   @IsOptional()
-  readonly playersCount?: number;
-
-  @ApiProperty({ example: 20, description: 'Total cards per user' })
-  @IsNumber()
-  @IsOptional()
-  readonly totalCardsPerUser?: number;
-
-  @ApiProperty({ example: 5, description: 'Cards on hands' })
-  @IsNumber()
-  @IsOptional()
-  readonly cardsOnHands?: number;
+  readonly currentDealId?: number;
 
   @ApiProperty({ example: GAME_STATUS.STARTED, description: 'Game status' })
   @IsEnum(GAME_STATUS)

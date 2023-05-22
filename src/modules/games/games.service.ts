@@ -2,9 +2,12 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { shuffle } from 'lodash';
 
+import { PLAYER_STATUS, GAME_STATUS } from '../../types/game';
+
 import { MemesService } from '../memes/memes.service';
 import { SituationsService } from '../situations/situations.service';
 import { PlayersService } from '../players/players.service';
+import { DealsService } from '../deals/deals.service';
 
 import { Game } from './games.model';
 import { CreateGameDto, UpdateGameDto, JoinGameDto } from './dto';
@@ -15,6 +18,7 @@ export class GamesService {
     private readonly memeService: MemesService,
     private readonly situationsService: SituationsService,
     private readonly playersService: PlayersService,
+    private readonly dealsService: DealsService,
     @InjectModel(Game) private gameRepository: typeof Game,
   ) {}
 
@@ -87,7 +91,55 @@ export class GamesService {
     return player;
   }
 
-  // private methods
+  async startGame(game: Game) {
+    const situationId = game.situations[0];
+    const newGameSituations = game.situations.slice(1);
+
+    const deal = await this.dealsService.createDeal({
+      gameId: game.id,
+      judgeId: game.creatorId,
+      situationId,
+    });
+
+    await this.updateGame(game.id, {
+      status: GAME_STATUS.STARTED,
+      situations: newGameSituations,
+      currentDealId: deal.id,
+    });
+  }
+
+  async createNewDeal(gameId: number, judgeId: number) {
+    const game = await this.getGameById(gameId);
+
+    if (!game) {
+      throw new HttpException('Game not found', HttpStatus.NOT_FOUND);
+    }
+
+    const situationId = game.situations[0];
+    const newGameSituations = game.situations.slice(1);
+
+    const deal = await this.dealsService.createDeal({
+      gameId,
+      judgeId,
+      situationId,
+    });
+
+    await this.updateGame(game.id, {
+      situations: newGameSituations,
+      currentDealId: deal.id,
+    });
+  }
+
+  // * helpers
+
+  canStartGame(game: Game) {
+    return (
+      game.players.length === game.playersCount &&
+      game.players.every((player) => player.status === PLAYER_STATUS.READY)
+    );
+  }
+
+  // * private methods
 
   private async getGameInitSituations(count: number) {
     const [allSituations, madeUpSituations] = await Promise.all([
