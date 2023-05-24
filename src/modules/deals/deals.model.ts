@@ -30,7 +30,7 @@ export class Deal extends Model<Deal, DealCreationAttributes> {
 
   @Column({
     type: DataType.STRING,
-    defaultValue: DEAL_STATUS.STARTED,
+    defaultValue: DEAL_STATUS.NOT_STARTED,
   })
   status: DEAL_STATUS;
 

@@ -1,6 +1,8 @@
 import { Model, Table, Column, DataType } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 
+import { getRandomColor } from '../../helpers/getRandomColor';
+
 interface CreationAttributes {
   text: string[];
   description?: string;
@@ -26,6 +28,12 @@ export class Situation extends Model<Situation, CreationAttributes> {
     allowNull: false,
   })
   text: string[];
+
+  @Column({
+    type: DataType.ARRAY(DataType.STRING),
+    defaultValue: [getRandomColor(), getRandomColor()],
+  })
+  colors: string[];
 
   @ApiProperty({ example: 'Qweqwe qwe', description: 'Meme description' })
   @Column({

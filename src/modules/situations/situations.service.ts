@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Situation } from './situations.model';
 import { CreateSituationDto } from './dto';
 import { SITUATIONS, BY_YOURSELF_SITUATION } from './constants';
+import { getRandomColor } from '../../helpers/getRandomColor';
 
 const MADE_UP_SITUATION = {
   id: 0,
@@ -27,6 +28,7 @@ export class SituationsService {
       id: index + 1,
       text,
       description: '',
+      colors: [getRandomColor(), getRandomColor()],
     })) as Situation[];
   }
 
@@ -41,7 +43,13 @@ export class SituationsService {
       return MADE_UP_SITUATION as Situation;
     }
     // TODO - remove when development will be done
-    return SITUATIONS[id - 1];
+    return {
+      id: id - 1,
+      text: SITUATIONS[id - 1],
+      description: '',
+      colors: [getRandomColor(), getRandomColor()],
+    };
+
     // return await this.situationsRepository.findOne({ where: { id } });
   }
 

@@ -50,6 +50,14 @@ export class CamesGateway {
     }
   }
 
+  @SubscribeMessage(GAME_WS_KEYS.DEAL_STARTED)
+  async onDealStarted(client: Socket, message: BaseMessage) {
+    client.broadcast.emit(
+      `${GAME_WS_KEYS.DEAL_STARTED}/${message.gameId}`,
+      message,
+    );
+  }
+
   // TODO -  end game logic. When situations will finish
   // * after setting vinnerId in final deal
 }
