@@ -74,6 +74,14 @@ export class CamesGateway {
     );
   }
 
+  @SubscribeMessage(GAME_WS_KEYS.CREATE_NEW_DEAL)
+  async onNewDeal(client: Socket, message: BaseMessage) {
+    client.broadcast.emit(
+      `${GAME_WS_KEYS.CREATE_NEW_DEAL}/${message.gameId}`,
+      message,
+    );
+  }
+
   // TODO - end game logic. When situations will finish
   // * after setting vinnerId in final deal
 }

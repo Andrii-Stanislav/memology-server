@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Patch,
   Delete,
   Body,
   Param,
@@ -12,7 +13,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { UserReq, JwtAuthGuard } from '../../guards';
 
-import { CreateGameDto, JoinGameDto } from './dto';
+import { CreateGameDto, JoinGameDto, CreateDeaDto } from './dto';
 
 @ApiBearerAuth()
 @ApiTags('Games route')
@@ -45,9 +46,15 @@ export class GamesController {
     return this.gameService.createGame(gameDto, user.id);
   }
 
-  @ApiOperation({ summary: 'Create game' })
+  @ApiOperation({ summary: 'Join game' })
   @Post('/join')
   joinToGame(@Body() joinGameDto: JoinGameDto, @UserReq() user) {
     return this.gameService.joinToGame(joinGameDto, user.id);
+  }
+
+  @ApiOperation({ summary: 'Create new deal' })
+  @Patch(`/:id/deal`)
+  createNewDeal(@Param('id') id: number, @Body() dto: CreateDeaDto) {
+    return this.gameService.createNewDeal(id, dto.judgeId);
   }
 }

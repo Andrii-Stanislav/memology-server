@@ -10,7 +10,8 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-import { JwtAuthGuard } from '../../guards';
+import { UserReq, JwtAuthGuard } from '../../guards';
+import { CreateBetDto } from '../bets/dto';
 
 import { PlayersService } from './players.service';
 import { UpdatePlayerDto } from './dto';
@@ -40,6 +41,15 @@ export class PlayersController {
   @Patch('/:id')
   async updatePlayer(@Param('id') id: number, @Body() dto: UpdatePlayerDto) {
     return this.playersService.updatePlayer(id, dto);
+  }
+
+  @Patch('/:id/bet')
+  async makeBet(
+    @Param('id') id: number,
+    @UserReq() user,
+    @Body() betDto: CreateBetDto,
+  ) {
+    return this.playersService.createBet(id, user.id, betDto);
   }
 
   @Delete('/:id')

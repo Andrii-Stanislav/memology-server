@@ -127,15 +127,19 @@ export class GamesService {
     const situationId = game.situations[0];
     const newGameSituations = game.situations.slice(1);
 
-    const deal = await this.dealsService.createDeal({
-      gameId,
-      judgeId,
-      situationId,
-    });
+    const [newGameCards, deal] = await Promise.all([
+      this.dealNewCardsToPlayers(game),
+      this.dealsService.createDeal({
+        gameId,
+        judgeId,
+        situationId,
+      }),
+    ]);
 
     await this.updateGame(game.id, {
       situations: newGameSituations,
       currentDealId: deal.id,
+      cards: newGameCards,
     });
   }
 
@@ -165,6 +169,19 @@ export class GamesService {
     const allMemes = await this.memeService.getAllMemes();
 
     return shuffle(allMemes.map(({ id }) => id)).slice(0, count);
+  }
+
+  private async dealNewCardsToPlayers(game: Game) {
+    await Promise.all([
+      ...game.players.map((player, index) => {
+        const cards = [...player.cards, game.cards[index]];
+        return this.playersService.updatePlayer(player.id, { cards });
+      }),
+    ]);
+
+    const newGameCards = game.cards.slice(game.players.length);
+
+    return newGameCards;
   }
 
   private dealCardsToPlayer(game: Game) {

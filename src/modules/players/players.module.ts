@@ -3,6 +3,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 
 import { AuthModule } from '../auth/auth.module';
 import { MemesModule } from '../memes/memes.module';
+import { BetsModule } from '../bets/bets.module';
 import { Game } from '../games/games.model';
 
 import { PlayersController } from './players.controller';
@@ -16,6 +17,7 @@ import { Player } from './players.model';
     SequelizeModule.forFeature([Player, Game]),
     forwardRef(() => AuthModule),
     MemesModule,
+    BetsModule,
   ],
   exports: [PlayersService],
 })
