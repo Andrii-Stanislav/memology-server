@@ -5,6 +5,8 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
+import { GAME_STATUS } from '../../../types/game';
+
 import { GamesService } from '../games.service';
 import { GAME_WS_KEYS } from '../constants';
 
@@ -68,10 +70,20 @@ export class CamesGateway {
 
   @SubscribeMessage(GAME_WS_KEYS.DEAL_FINISHED)
   async onDealFinished(client: Socket, message: BaseMessage) {
-    client.broadcast.emit(
-      `${GAME_WS_KEYS.DEAL_FINISHED}/${message.gameId}`,
-      message,
-    );
+    const { gameId } = message;
+    client.broadcast.emit(`${GAME_WS_KEYS.DEAL_FINISHED}/${gameId}`, message);
+
+    const game = await this.gameService.getGameById(gameId);
+    if (game.situations.length === 0) {
+      const finishedGame = await this.gameService.updateGame(gameId, {
+        status: GAME_STATUS.FINISHED,
+      });
+
+      client.broadcast.emit(
+        `${GAME_WS_KEYS.GAME_FINISHED}/${gameId}`,
+        finishedGame,
+      );
+    }
   }
 
   @SubscribeMessage(GAME_WS_KEYS.CREATE_NEW_DEAL)

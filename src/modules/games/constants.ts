@@ -7,4 +7,5 @@ export enum GAME_WS_KEYS {
   CREATE_BET = 'game:create_bet',
   DEAL_FINISHED = 'game:deal_finished',
   CREATE_NEW_DEAL = 'game:create_new_deal',
+  GAME_FINISHED = 'game:game_finished',
 }

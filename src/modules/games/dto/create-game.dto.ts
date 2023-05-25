@@ -10,9 +10,9 @@ export class CreateGameDto {
   @IsNumber()
   readonly playersCount: number;
 
-  @ApiProperty({ example: 20, description: 'Total cards per user' })
+  @ApiProperty({ example: 7, description: 'Total deals count' })
   @IsNumber()
-  readonly totalCardsPerUser: number;
+  readonly dealsCount: number;
 
   @ApiProperty({ example: 5, description: 'Cards on hands' })
   @IsNumber()

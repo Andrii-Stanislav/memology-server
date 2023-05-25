@@ -45,11 +45,11 @@ export class GamesService {
   }
 
   async createGame(dto: CreateGameDto, creatorId: number) {
-    const { title, playersCount, cardsOnHands, totalCardsPerUser } = dto;
+    const { title, playersCount, cardsOnHands, dealsCount } = dto;
 
     const [cards, situations] = await Promise.all([
-      this.getGameInitCards(playersCount * totalCardsPerUser),
-      this.getGameInitSituations(totalCardsPerUser),
+      this.getGameInitCards(playersCount * dealsCount * cardsOnHands),
+      this.getGameInitSituations(dealsCount),
     ]);
 
     return await this.gameRepository.create({
@@ -124,6 +124,13 @@ export class GamesService {
       throw new HttpException('Game not found', HttpStatus.NOT_FOUND);
     }
 
+    if (game.situations.length === 0) {
+      throw new HttpException(
+        'Game dont have more situations',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
     const situationId = game.situations[0];
     const newGameSituations = game.situations.slice(1);
 
@@ -172,11 +179,15 @@ export class GamesService {
   }
 
   private async dealNewCardsToPlayers(game: Game) {
+    const currentDeal = game.deals.find(({ id }) => id === game.currentDealId);
+
     await Promise.all([
-      ...game.players.map((player, index) => {
-        const cards = [...player.cards, game.cards[index]];
-        return this.playersService.updatePlayer(player.id, { cards });
-      }),
+      ...game.players
+        .filter(({ userId }) => userId !== currentDeal?.judgeId)
+        .map((player, index) => {
+          const cards = [...player.cards, game.cards[index]];
+          return this.playersService.updatePlayer(player.id, { cards });
+        }),
     ]);
 
     const newGameCards = game.cards.slice(game.players.length);
