@@ -58,6 +58,22 @@ export class CamesGateway {
     );
   }
 
-  // TODO -  end game logic. When situations will finish
+  @SubscribeMessage(GAME_WS_KEYS.CREATE_BET)
+  async onBetCreate(client: Socket, message: BaseMessage) {
+    client.broadcast.emit(
+      `${GAME_WS_KEYS.CREATE_BET}/${message.gameId}`,
+      message.newBet,
+    );
+  }
+
+  @SubscribeMessage(GAME_WS_KEYS.DEAL_FINISHED)
+  async onDealFinished(client: Socket, message: BaseMessage) {
+    client.broadcast.emit(
+      `${GAME_WS_KEYS.DEAL_FINISHED}/${message.gameId}`,
+      message,
+    );
+  }
+
+  // TODO - end game logic. When situations will finish
   // * after setting vinnerId in final deal
 }

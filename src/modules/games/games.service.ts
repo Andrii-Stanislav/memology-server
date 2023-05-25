@@ -8,6 +8,8 @@ import { MemesService } from '../memes/memes.service';
 import { SituationsService } from '../situations/situations.service';
 import { PlayersService } from '../players/players.service';
 import { DealsService } from '../deals/deals.service';
+import { Bet } from '../bets/bets.model';
+import { Deal } from '../deals/deals.model';
 
 import { Game } from './games.model';
 import { CreateGameDto, UpdateGameDto, JoinGameDto } from './dto';
@@ -25,14 +27,14 @@ export class GamesService {
   async getAllGames(creatorId: number) {
     return await this.gameRepository.findAll({
       where: { creatorId },
-      include: { all: true },
+      include: [{ all: true }, { model: Deal, include: [Bet] }],
     });
   }
 
   async getGameById(gameId: number) {
     const game = await this.gameRepository.findOne({
       where: { id: gameId },
-      include: { all: true },
+      include: [{ all: true }, { model: Deal, include: [Bet] }],
     });
 
     return game;
@@ -72,6 +74,13 @@ export class GamesService {
 
     if (!game) {
       throw new HttpException('Game not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (game.playersCount === game.players.length) {
+      throw new HttpException(
+        'There is no space in this game',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const { playerCards, newGameCards } = this.dealCardsToPlayer(game);
