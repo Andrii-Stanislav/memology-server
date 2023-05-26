@@ -12,7 +12,7 @@ async function start() {
   const app = await NestFactory.create(AppModule);
 
   setupSwagger(app);
-  // app.enableCors(corsOptions);
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(PORT, () => console.log(`Server started on port = ${PORT}`));
