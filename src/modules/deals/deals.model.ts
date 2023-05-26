@@ -42,7 +42,7 @@ export class Deal extends Model<Deal, DealCreationAttributes> {
   gameId: number;
 
   @Column({ type: DataType.INTEGER, allowNull: true })
-  vinnerId: number | null;
+  winnerId: number | null;
 
   @Column({ type: DataType.INTEGER })
   judgeId: number;

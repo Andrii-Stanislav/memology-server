@@ -93,7 +93,4 @@ export class CamesGateway {
       message,
     );
   }
-
-  // TODO - end game logic. When situations will finish
-  // * after setting vinnerId in final deal
 }

@@ -5,7 +5,7 @@ import { DEAL_STATUS } from '../../../types/game';
 export class UpdateDealDto {
   @IsNumber()
   @IsOptional()
-  readonly vinnerId?: number;
+  readonly winnerId?: number;
 
   @IsEnum(DEAL_STATUS)
   @IsOptional()
