@@ -5,7 +5,7 @@ import { ValidationPipe } from './pipes/validation.pipe';
 import { corsOptions, setupSwagger } from './configs';
 
 async function start() {
-  const PORT = process.env.PORT ?? 3000;
+  const PORT = parseInt(process.env.PORT) ?? 3000;
   const app = await NestFactory.create(AppModule);
 
   setupSwagger(app);
