@@ -2,7 +2,6 @@ import { Model, Table, Column, DataType, HasMany } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { Game } from '../games/games.model';
-import { Player } from '../players/players.model';
 
 interface UserCreationAttributes {
   email: string;

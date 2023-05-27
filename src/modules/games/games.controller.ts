@@ -24,8 +24,20 @@ export class GamesController {
 
   @ApiOperation({ summary: 'Get all games' })
   @Get()
-  async getAllGames(@UserReq() user) {
-    return this.gameService.getAllGames(user.id);
+  async getAllGames() {
+    return this.gameService.getAllGames();
+  }
+
+  @ApiOperation({ summary: 'Get all created games' })
+  @Get('/created')
+  async getAllCreatedGames(@UserReq() user) {
+    return this.gameService.getAllCreatedGames(user.id);
+  }
+
+  @ApiOperation({ summary: 'Get all participated games' })
+  @Get('/participated')
+  async getAllParticipatedGames(@UserReq() user) {
+    return this.gameService.getAllParticipatedGames(user.id);
   }
 
   @ApiOperation({ summary: 'Get one game' })

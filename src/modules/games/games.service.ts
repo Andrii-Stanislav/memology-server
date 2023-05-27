@@ -1,6 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { shuffle } from 'lodash';
+import { Op } from 'sequelize';
 
 import { PLAYER_STATUS, GAME_STATUS } from '../../types/game';
 
@@ -24,11 +25,35 @@ export class GamesService {
     @InjectModel(Game) private gameRepository: typeof Game,
   ) {}
 
-  async getAllGames(creatorId: number) {
+  async getAllGames() {
     return await this.gameRepository.findAll({
-      where: { creatorId },
       include: [{ all: true }, { model: Deal, include: [Bet] }],
     });
+  }
+
+  async getAllCreatedGames(creatorId: number) {
+    return await this.gameRepository
+      .findAll({
+        where: { creatorId },
+        include: [{ all: true }, { model: Deal, include: [Bet] }],
+      })
+      .then(this.sortGamesByStatus);
+  }
+
+  async getAllParticipatedGames(userId: number) {
+    return await this.gameRepository
+      .findAll({
+        where: {
+          [Op.and]: [{ creatorId: { [Op.ne]: userId } }],
+        },
+        include: [{ all: true }, { model: Deal, include: [Bet] }],
+      })
+      .then((games) =>
+        games.filter((game) =>
+          game.players.some((player) => player.userId === userId),
+        ),
+      )
+      .then(this.sortGamesByStatus);
   }
 
   async getGameById(gameId: number) {
@@ -200,5 +225,18 @@ export class GamesService {
     const newGameCards = game.cards.filter((id) => !playerCards.includes(id));
 
     return { playerCards, newGameCards };
+  }
+
+  private sortGamesByStatus(games: Game[]) {
+    const SORTING_ORDER = {
+      [GAME_STATUS.STARTED]: 0,
+      [GAME_STATUS.NOT_STARTED]: 1,
+      [GAME_STATUS.FINISHED]: 2,
+    };
+
+    return games.sort(
+      (gameA, gameB) =>
+        SORTING_ORDER[gameA.status] - SORTING_ORDER[gameB.status],
+    );
   }
 }
