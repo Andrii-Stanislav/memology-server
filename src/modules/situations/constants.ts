@@ -1,5 +1,13 @@
 export const BY_YOURSELF_SITUATION = ['Придумай сам(а)'];
 
+// Promise.all(
+//   SITUATIONS.map((text) =>
+//     this.createSituation({ text }).then((situation) =>
+//       console.log('situation: ', situation.id),
+//     ),
+//   ),
+// );
+
 export const SITUATIONS = [
   [
     'Твоє лице, коли за час війни, спускаючись щоразу у сховище,',

@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 
+import { getRandomColor } from '../../helpers/getRandomColor';
+
 import { Situation } from './situations.model';
 import { CreateSituationDto } from './dto';
 import { BY_YOURSELF_SITUATION } from './constants';
@@ -34,6 +36,9 @@ export class SituationsService {
   }
 
   async createSituation(dto: CreateSituationDto) {
-    return await this.situationsRepository.create(dto);
+    return await this.situationsRepository.create({
+      ...dto,
+      colors: [getRandomColor(), getRandomColor()],
+    });
   }
 }
