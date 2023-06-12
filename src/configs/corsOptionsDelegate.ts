@@ -1,8 +1,7 @@
 export const corsOptions = {
-  origin: process.env.CLIENT_URL,
+  origin: [
+    process.env.CLIENT_URL,
+    process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '',
+  ],
   credentials: true,
-  // origin: [...JSON.parse(process.env.ALLOWED_HOSTS ?? '[]')],
-  // methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  // preflightContinue: false,
-  // optionsSuccessStatus: 204,
 };
