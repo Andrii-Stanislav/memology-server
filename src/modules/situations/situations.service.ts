@@ -3,8 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 
 import { Situation } from './situations.model';
 import { CreateSituationDto } from './dto';
-import { SITUATIONS, BY_YOURSELF_SITUATION } from './constants';
-import { getRandomColor } from '../../helpers/getRandomColor';
+import { BY_YOURSELF_SITUATION } from './constants';
 
 const MADE_UP_SITUATION = {
   id: 0,
@@ -21,15 +20,7 @@ export class SituationsService {
   private possibilityOfMadeUpSituation = 0.5;
 
   async getAllSituations() {
-    // return await this.situationsRepository.findAll({ include: { all: true } });
-
-    // TODO - remove when development will be done
-    return SITUATIONS.map((text, index) => ({
-      id: index + 1,
-      text,
-      description: '',
-      colors: [getRandomColor(), getRandomColor()],
-    })) as Situation[];
+    return await this.situationsRepository.findAll({ include: { all: true } });
   }
 
   async getMadeUpSituations(count: number) {
@@ -39,18 +30,7 @@ export class SituationsService {
   }
 
   async getSituationById(id: number) {
-    if (id.toString() === '0') {
-      return MADE_UP_SITUATION as Situation;
-    }
-    // TODO - remove when development will be done
-    return {
-      id: id - 1,
-      text: SITUATIONS[id - 1],
-      description: '',
-      colors: [getRandomColor(), getRandomColor()],
-    };
-
-    // return await this.situationsRepository.findOne({ where: { id } });
+    return await this.situationsRepository.findOne({ where: { id } });
   }
 
   async createSituation(dto: CreateSituationDto) {

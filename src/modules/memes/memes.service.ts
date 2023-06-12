@@ -5,7 +5,6 @@ import { FilesService } from '../files/files.service';
 
 import { Meme } from './memes.model';
 import { CreateMemeDto, CreateMemeExternalDto } from './dto';
-import { MEMES_IMAGES } from './constants';
 
 @Injectable()
 export class MemesService {
@@ -15,15 +14,8 @@ export class MemesService {
   ) {}
 
   async getAllMemes() {
-    // const memes = await this.memeRepository.findAll({ include: { all: true } });
-    // return memes;
-    // TODO - remove when development will be done
-    return Object.entries(MEMES_IMAGES).map(([id, image]) => ({
-      id: +id,
-      image,
-      title: '',
-      description: '',
-    })) as Meme[];
+    const memes = await this.memeRepository.findAll({ include: { all: true } });
+    return memes;
   }
 
   async getMemeById(id: number) {
