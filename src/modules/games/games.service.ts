@@ -187,14 +187,9 @@ export class GamesService {
   // * private methods
 
   private async getGameInitSituations(count: number) {
-    const [allSituations, madeUpSituations] = await Promise.all([
-      this.situationsService.getAllSituations(),
-      this.situationsService.getMadeUpSituations(count),
-    ]);
+    const allSituations = await this.situationsService.getAllSituations();
 
-    return shuffle(
-      [...allSituations, ...madeUpSituations].map(({ id }) => id),
-    ).slice(0, count);
+    return shuffle(allSituations.map(({ id }) => id)).slice(0, count);
   }
 
   private async getGameInitCards(count: number) {
