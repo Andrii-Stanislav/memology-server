@@ -1,7 +1,7 @@
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-// import { ServeStaticModule } from '@nestjs/serve-static';
-// import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 // db models
 import { User } from '../modules/users/users.model';
@@ -20,7 +20,7 @@ export const AppConfigsModules = [
     models: [User, Meme, Situation, Game, Player, Deal, Bet],
     autoLoadModels: true,
   }),
-  // ServeStaticModule.forRoot({
-  //   rootPath: join(__dirname, 'static'),
-  // }),
+  ServeStaticModule.forRoot({
+    rootPath: join(__dirname, 'static'),
+  }),
 ];
