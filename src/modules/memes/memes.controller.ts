@@ -46,8 +46,6 @@ export class MemesController {
     return this.memeService.getMemeById(id);
   }
 
-  // getMemeById
-
   @UseGuards(SuperAdminGuard)
   @ApiOperation({ summary: 'Create meme' })
   @ApiResponse({ status: 200, type: Meme })

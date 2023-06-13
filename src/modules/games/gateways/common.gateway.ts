@@ -16,15 +16,6 @@ export class CommonGateway implements OnGatewayDisconnect {
 
   async handleDisconnect(socket: Socket) {
     console.log('handleDisconnect: ', socket);
-    // const user = await this.jwtService.verify(socket.handshake.query.token);
-    // const userPos = this.connectedUsers.indexOf(String(user._id));
-    // if (userPos > -1) {
-    //   this.connectedUsers = [
-    //     ...this.connectedUsers.slice(0, userPos),
-    //     ...this.connectedUsers.slice(userPos + 1),
-    //   ];
-    // }
-    // // Sends the new list of connected users
-    // this.server.emit('users', this.connectedUsers);
+    //
   }
 }
